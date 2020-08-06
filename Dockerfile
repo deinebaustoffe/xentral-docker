@@ -7,7 +7,8 @@ ENV XENTRAL_DOWNLOAD=https://update.xentral.biz/download/20.1.e87df4b_oss_wawisi
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ Europe/Berlin
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update \
+RUN DEBIAN_FRONTEND=noninteractive echo "deb http://security.ubuntu.com/ubuntu bionic-security main universe" >>  /etc/apt/sources.list \
+ && apt-get update \
  && apt-get install -y wget unzip cron \
  && apt-get install -y apache2 \
  && apt-get install -y mcrypt php php-pear libapache2-mod-php curl php-mysql php-cli \
