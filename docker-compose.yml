@@ -3,15 +3,11 @@ services:
   xentral:
     container_name: xentral_app
     restart: always
-    image: 'deinebaustoffe/xentral:ubuntu.18.04'
+    image: 'deinebaustoffe/xentral:latest'
     ports:
       - '8011:80'
     links:
       - mysql
-    labels:
-      - "virtual.host=xentral-dev.db-ops.de"
-      - "virtual.port=8011"
-      - "virtual.tls-email=dev@deinebaustoffe.de"
   mysql:
     container_name: xentral_db
     restart: always
@@ -23,15 +19,3 @@ services:
       MYSQL_DATABASE: xentral
       MYSQL_USER: xentral
       MYSQL_PASSWORD: xentral
-  caddy-gen:
-    container_name: caddy-gen
-    image: "wemakeservices/caddy-gen:latest"
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./caddy-info:/data/caddy
-    ports:
-      - "80:80"
-      - "443:443"
-    depends_on:
-      - xentral_app
