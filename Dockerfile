@@ -23,6 +23,7 @@ RUN a2enmod rewrite
 RUN a2enmod rewrite
 
 RUN phpenmod imap
+RUN phpenmod zip
 
 RUN wget http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
  && tar xfz ioncube_loaders_lin_x86-64.tar.gz && rm ioncube_loaders_lin_x86-64.tar.gz \
