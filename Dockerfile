@@ -7,14 +7,19 @@ ENV XENTRAL_DOWNLOAD=https://update.xentral.biz/download/20.1.e87df4b_oss_wawisi
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ Europe/Berlin
 
-RUN DEBIAN_FRONTEND=noninteractive echo "deb http://security.ubuntu.com/ubuntu bionic-security main universe" >>  /etc/apt/sources.list \
- && apt-get update \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update \
  && apt-get install -y wget unzip cron \
  && apt-get install -y apache2 \
  && apt-get install -y mcrypt php php-pear libapache2-mod-php curl php-mysql php-cli \
  && apt-get install -y php-mysql php-soap php-imap php-fpm php7.2-zip php-gd php-xml php-curl php-zip php-mbstring php7.2-ldap \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata \
- && apt-get clean && rm -rf /var/lib/apt/lists/*
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
+
+ RUN apt-get install -y \
+        libzip-dev \
+        zip \
+  && docker-php-ext-configure zip --with-libzip \
+  && docker-php-ext-install zip \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN echo "ServerName 0.0.0.0" >> /etc/apache2/apache2.conf
 RUN apache2ctl configtest
