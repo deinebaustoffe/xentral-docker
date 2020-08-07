@@ -8,9 +8,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ Europe/Berlin
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
- && apt-get install -y wget unzip cron \
+ && apt-get install -y wget libzip-dev unzip cron \
  && apt-get install -y apache2 \
- && apt-get install -y mcrypt php php-pear zip unzip php-zip libapache2-mod-php curl php-mysql php-cli \
+ && apt-get install -y mcrypt php7.2-dev php php-pear zip unzip php-zip libapache2-mod-php curl php-mysql php-cli \
  && apt-get install -y php-mysql php-soap php-imap php-fpm php7.2-zip php-gd php-xml php-curl php-zip php-mbstring php7.2-ldap \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 
@@ -22,6 +22,8 @@ RUN a2enmod rewrite
 
 RUN phpenmod imap
 RUN phpenmod zip
+RUN pecl channel-update pecl.php.net
+RUN pecl install zip
 
 RUN wget http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
  && tar xfz ioncube_loaders_lin_x86-64.tar.gz && rm ioncube_loaders_lin_x86-64.tar.gz \
@@ -52,6 +54,7 @@ ENV APACHE_LOG_DIR /var/log/apache2
 
 VOLUME /var/www/html/conf
 VOLUME /var/www/html/userdata
+VOLUME /var/www/html
 
 COPY crontab /etc/crontab
 RUN chown root: /etc/crontab && chmod 644 /etc/crontab
