@@ -1,0 +1,21 @@
+version: 3.8
+services:
+  xentral:
+    container_name: xentral_app
+    restart: always
+    image: 'deinebaustoffe/xentral:latest'
+    ports:
+      - '8011:80'
+    links:
+      - mysql
+  mysql:
+    container_name: xentral_db
+    restart: always
+    image: 'mysql:5.7'
+    ports:
+      - '3307:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: xentral
+      MYSQL_DATABASE: xentral
+      MYSQL_USER: xentral
+      MYSQL_PASSWORD: xentral
